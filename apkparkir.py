@@ -278,4 +278,5 @@ Pilih Jenis Slot Yang Ingin Dilihat :
     else:
         print("\n=====================================================")
         print("\033[1;31mPilihan Tidak Valid. Silahkan Masukkan Pilihan 1 - 5!\033[0m")
+
         print("=====================================================")
