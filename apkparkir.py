@@ -58,67 +58,67 @@ while True:
             print("==============================\n")
             continue
         else:
-            print("""
+            while True:
+                print("""
 Jenis Kendaraan : 
 1. Mobil
 2. Motor
 3. Truk
 4. Bus""")
+                jenis = input("Pilih Jenis Kendaraan (1/2/3/4): ").strip()
+                if jenis == "1":
+                    jenis = "Mobil"
+                    kode = "MBL"
+                    break
+                elif jenis == "2":
+                    jenis = "Motor"
+                    kode = "MTR"
+                    break
+                elif jenis == "3":
+                    jenis = "Truk"
+                    kode = "TRU"
+                    break
+                elif jenis == "4":
+                    jenis = "Bus"
+                    kode = "BUS"
+                    break
+                else:
+                    print("\n=====================================================")
+                    print("\033[1;31mPilihan Tidak Valid. Silahkan Masukkan Pilihan 1 - 4!\033[0m")
+                    print("=====================================================")
+                    continue
+            
+            # Cari Slot Berdasarkan Kode
+            slotKOSONG = None
+            for s in slot:
+                if s.startswith(kode) and slot[s] is None:
+                    slotKOSONG = s
+                    break
 
-        while True:
-            jenis = input("Pilih Jenis Kendaraan (1/2/3/4): ").strip()
-            if jenis == "1":
-                jenis = "Mobil"
-                kode = "MBL"
-                break
-            elif jenis == "2":
-                jenis = "Motor"
-                kode = "MTR"
-                break
-            elif jenis == "3":
-                jenis = "Truk"
-                kode = "TRU"
-                break
-            elif jenis == "4":
-                jenis = "Bus"
-                kode = "BUS"
-                break
+            if slotKOSONG is None:
+                print("\n===========")
+                print("\033[1;31mSlot Penuh!\033[0m")
+                print("===========")
             else:
-                print("\n=====================================================")
-                print("\033[1;31mPilihan Tidak Valid. Silahkan Masukkan Pilihan 1 - 4!\033[0m")
-                print("=====================================================\n")
-                continue
-
-        slotKOSONG = None
-        for s in slot:
-            if s.startswith(kode) and slot[s] is None:
-                slotKOSONG = s
-                break
-
-        if slotKOSONG is None:
-            print("\n===========")
-            print("\033[1;31mSlot Penuh!\033[0m")
-            print("===========")
-        else:
-            waktuMASUK = datetime.datetime.now()
-            slot[slotKOSONG] = plat
-            data[plat] = {
-            "in": waktuMASUK,
-            "jenis": jenis,
-            "slot": slotKOSONG
-            }
-            if plat in member:
-                status = "MEMBER"
-            else:
-                status = "REGULAR"
-                
-            print("\n======== TAP IN ========")
-            print(f"Plat        : {plat}")
-            print(f"Jenis       : {jenis}")
-            print(f"Slot        : {slotKOSONG}")
-            print(f"Waktu Masuk : {waktuMASUK.strftime('%H:%M:%S')}")
-            print(f"Status      : {status}")
-            print("========================")
+                waktuMASUK = datetime.datetime.now()
+                slot[slotKOSONG] = plat
+                data[plat] = {
+                "in": waktuMASUK,
+                "jenis": jenis,
+                "slot": slotKOSONG
+                }
+                if plat in member:
+                    status = "MEMBER"
+                else:
+                    status = "REGULAR"
+                    
+                print("\n======== TAP IN ========")
+                print(f"Plat        : {plat}")
+                print(f"Jenis       : {jenis}")
+                print(f"Slot        : {slotKOSONG}")
+                print(f"Waktu Masuk : {waktuMASUK.strftime('%H:%M:%S')}")
+                print(f"Status      : {status}")
+                print("========================")
                 
     # ------------------ TAP OUT ------------------
     elif pilihan == "2":
@@ -130,11 +130,13 @@ Jenis Kendaraan :
             print("===============================")
             continue
         else:
+            # Ambil Data Berdasarkan Plat
             waktuKELUAR = datetime.datetime.now()
             waktuMASUK = data[plat]["in"]
             jenis = data[plat]["jenis"]
             slotPARKIR = data[plat]["slot"]
 
+            # Hitung Durasi
             selisih = waktuKELUAR - waktuMASUK
             durasiDETIK = selisih.total_seconds()
             durasiJAM = int(durasiDETIK // 3600)
@@ -158,14 +160,14 @@ Jenis Kendaraan :
             print(f"Total Bayar : Rp.{total:,.0f}")
             print("=========================")
             
-        print("\n===================")
-        print("Metode Pembayaran :")
-        print("===================")
-        print("1. Cash")
-        print("2. QR")
-
-        while True:
-            metode = input("Pilih metode (1/2): ").strip()
+        while True:   
+            print("""
+===================
+ Metode Pembayaran
+===================
+1. Cash
+2. QR""")
+            metode = input("Pilih metode (1/2) : ").strip()
 
             if metode == "1":
                 while True:
@@ -189,7 +191,7 @@ Jenis Kendaraan :
                 break
 
             elif metode == "2":
-                time.sleep(2)
+                time.sleep(3)
                 print("\n==============================")
                 print("\033[1;32m{:^30}\033[0m".format("Pembayaran QRIS Berhasil!"))
                 print("==============================")
@@ -215,16 +217,18 @@ Jenis Kendaraan :
             waktuMASUK = data[plat]["in"]
             try:
                 while True:
+                    
+                    # Hitung Durasi Yang Akan Di Loop
                     waktuSEKARANG = datetime.datetime.now()
                     selisih = waktuSEKARANG - waktuMASUK
-                    h, sisa = divmod(selisih.seconds, 3600)
+                    j, sisa = divmod(selisih.seconds, 3600)
                     m, d = divmod(sisa, 60)
                     os.system("cls" if os.name == "nt" else "clear")
                   
                     print(f"======== {plat} ========")
                     print(f"Waktu Masuk     : {waktuMASUK.strftime('%H:%M:%S')}")
                     print(f"Waktu Sekarang  : {waktuSEKARANG.strftime('%H:%M:%S')}")
-                    print(f"Durasi Parkir   : {h} Jam {m} Menit {d} Detik")
+                    print(f"Durasi Parkir   : {j} Jam {m} Menit {d} Detik")
                     print("\nCTRL + C Untuk Keluar")
                     time.sleep(1)
             except KeyboardInterrupt:
@@ -261,11 +265,14 @@ Pilih Jenis Slot Yang Ingin Dilihat :
             else:
                 prefix = slotMAP[pilihanSLOT]
                 print("\n======= STATUS SLOT PARKIR =======")
+                
+                # Pengecekan Setiap Slot
                 for s, p in slot.items():
                     if prefix is None or s.startswith(prefix):
                         status = ("\033[1;31mKosong\033[0m" if p is None else f"\033[1;32m{p}\033[0m")
                         print(f"{s} : {status}")
-                print()
+                        
+                print("==================================")
                 break
 
     # ------------------ KELUAR ------------------
@@ -279,4 +286,3 @@ Pilih Jenis Slot Yang Ingin Dilihat :
         print("\n=====================================================")
         print("\033[1;31mPilihan Tidak Valid. Silahkan Masukkan Pilihan 1 - 5!\033[0m")
         print("=====================================================")
-
