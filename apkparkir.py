@@ -40,7 +40,7 @@ data = {}
 # ====== PROGRAM UTAMA ======
 while True:
     print("""
-==== SISTEM PARKIR ====
+==== APLIKASI PARKIR ====
 1. Tap In
 2. Tap Out
 3. Cek Durasi
@@ -286,3 +286,4 @@ Pilih Jenis Slot Yang Ingin Dilihat :
         print("\n=====================================================")
         print("\033[1;31mPilihan Tidak Valid. Silahkan Masukkan Pilihan 1 - 5!\033[0m")
         print("=====================================================")
+
